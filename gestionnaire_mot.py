@@ -44,7 +44,7 @@ class GestionnaireMot:
                         self.dictionnaire_correspondance_mot[mot_code].remove(mot)
                         return self.actualiser_dictionnaire_correspondance_mot()
 
-    def suppression_par_mot_absent_dictionnaire_lettre(self, dictionnaire_lettre):
+    def suppression_par_mot_absent_dictionnaire_lettre_lettre_trouvee(self, dictionnaire_lettre):
         lettre_codee_trouvee = {cle: dictionnaire_lettre[cle] for cle in dictionnaire_lettre if isinstance(dictionnaire_lettre[cle], str)}
         for lettre in lettre_codee_trouvee:
             for mot_code in self.dictionnaire_correspondance_mot:
@@ -59,9 +59,30 @@ class GestionnaireMot:
                     else:
                         self.dictionnaire_correspondance_mot[mot_code] = nouvelle_liste
 
+    def suppression_par_mot_absent_dictionnaire_lettre_position_lettre_trouvee(self, dictionnaire_lettre):
+        lettre_codee_position_trouvee = {cle: dictionnaire_lettre[cle] for cle in dictionnaire_lettre if
+                                isinstance(dictionnaire_lettre[cle], dict)}
+
+        for lettre in lettre_codee_position_trouvee:
+            for mot_code in self.dictionnaire_correspondance_mot:
+                if lettre in mot_code and isinstance(self.dictionnaire_correspondance_mot[mot_code], list):
+                    position_list = [i for i in range(len(mot_code)) if mot_code[i] == lettre]
+                    for position in position_list:
+                        nouvelle_liste = [mot for mot in self.dictionnaire_correspondance_mot[mot_code]
+                                          if mot[position] in lettre_codee_position_trouvee[lettre][position]]
+
+                        if len(nouvelle_liste) == 1:
+                            self.dictionnaire_correspondance_mot[mot_code] = nouvelle_liste[0]
+                            return self.actualiser_dictionnaire_correspondance_mot(dictionnaire_lettre)
+                        else:
+                            self.dictionnaire_correspondance_mot[mot_code] = nouvelle_liste
+
     def actualiser_dictionnaire_correspondance_mot(self, dictionnaire_lettre=None):
 
         self.suppression_par_mot_unique()
         self.suppression_de_mot_trouve()
         self.suppression_par_n_mot_necessaire()
-        if dictionnaire_lettre: self.suppression_par_mot_absent_dictionnaire_lettre(dictionnaire_lettre)
+
+        if dictionnaire_lettre:
+            self.suppression_par_mot_absent_dictionnaire_lettre_lettre_trouvee(dictionnaire_lettre)
+            self.suppression_par_mot_absent_dictionnaire_lettre_position_lettre_trouvee(dictionnaire_lettre)

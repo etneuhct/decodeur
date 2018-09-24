@@ -72,13 +72,8 @@ class GestionnaireLettre:
 
         return
 
-    def suppression_de_lettre_absente_dictionnaire_de_mot(self, dictionnaire_correspondance_mot):
-
-        return
-
     def actualiser_dictionnaire_lettre(self, nouveau_dictionnaire_correspondance_mot=None):
 
         self.suppression_de_lettre_par_n_plet_trouve()
         self.suppression_de_lettre_par_lettre_trouve()
         self.suppression_de_lettre_par_frequence_aberrante()
-        self.suppression_de_lettre_absente_dictionnaire_de_mot(nouveau_dictionnaire_correspondance_mot)
