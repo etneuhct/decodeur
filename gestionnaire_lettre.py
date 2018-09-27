@@ -43,7 +43,7 @@ class GestionnaireLettre:
                                                             &
                                     set(self.dictionnaire_correspondance_lettre[lettre_code][position]))
 
-    def suppression_de_lettre_par_position(self):
+    def suppression_de_lettre_par_intersection_de_position(self):
         for lettre in self.dictionnaire_correspondance_lettre:
             if isinstance(self.dictionnaire_correspondance_lettre[lettre], dict) and len(self.dictionnaire_correspondance_lettre[lettre]) > 1:
                 positions = sorted(list(self.dictionnaire_correspondance_lettre[lettre].keys()))
@@ -53,8 +53,10 @@ class GestionnaireLettre:
                 nouvelle_liste = list(nouvelle_liste)
 
                 for position_possible in positions:
-                    self.dictionnaire_correspondance_lettre[lettre][position_possible] = nouvelle_liste \
-                        if len(nouvelle_liste) > 1 else nouvelle_liste[0]
+                    if len(nouvelle_liste) == 1:
+                        self.dictionnaire_correspondance_lettre[lettre] = nouvelle_liste[0]
+                    else:
+                        self.dictionnaire_correspondance_lettre[lettre][position_possible] = nouvelle_liste
 
     def suppression_de_lettre_par_lettre_trouve(self):
         lettres_trouvees = [self.dictionnaire_correspondance_lettre[lettre]
@@ -83,6 +85,6 @@ class GestionnaireLettre:
 
     def actualiser_dictionnaire_lettre(self, nouveau_dictionnaire_correspondance_mot=None):
 
-        self.suppression_de_lettre_par_position()
+        self.suppression_de_lettre_par_intersection_de_position()
         self.suppression_de_lettre_par_lettre_trouve()
         self.suppression_de_lettre_par_frequence_aberrante()
