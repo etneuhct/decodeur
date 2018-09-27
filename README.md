@@ -39,6 +39,7 @@ les originaux de lettres identifiées
 > Meme logique que dans le cadre du dictionnaire de mot
 
 C. Dans le dictionnaire de mot
+
 7. Eliminer de la liste de mots possibles de chaque mot crypté les mots dont le positionnement des lettres
 ne correspond pas avec le dictionnaire de lettre
 > Dans le cas:
