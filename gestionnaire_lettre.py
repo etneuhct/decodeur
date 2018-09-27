@@ -1,4 +1,4 @@
-
+from pprint import pprint
 
 class GestionnaireLettre:
 
@@ -62,8 +62,8 @@ class GestionnaireLettre:
         lettres_trouvees = [self.dictionnaire_correspondance_lettre[lettre]
                           for lettre in self.dictionnaire_correspondance_lettre
                           if isinstance(self.dictionnaire_correspondance_lettre[lettre], str)]
-        for lettre in self.dictionnaire_correspondance_lettre:
 
+        for lettre in self.dictionnaire_correspondance_lettre:
 
             if isinstance(self.dictionnaire_correspondance_lettre[lettre], dict):
                 for position in self.dictionnaire_correspondance_lettre[lettre]:
@@ -79,12 +79,7 @@ class GestionnaireLettre:
                     else:
                         self.dictionnaire_correspondance_lettre[lettre][position] = nouvelle_liste
 
-    def suppression_de_lettre_par_frequence_aberrante(self):
-
-        return
-
     def actualiser_dictionnaire_lettre(self, nouveau_dictionnaire_correspondance_mot=None):
 
         self.suppression_de_lettre_par_intersection_de_position()
         self.suppression_de_lettre_par_lettre_trouve()
-        self.suppression_de_lettre_par_frequence_aberrante()

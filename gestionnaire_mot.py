@@ -9,25 +9,28 @@ class GestionnaireMot:
             mot_code: dictionnaire_langue_originale_classe[Utils.recoder_mot(mot_code)]
                 for mot_code in dictionnaire_langue_codee}
 
-    def suppression_par_mot_unique(self):
+    def verification_de_mot_trouve(self):
         for mot_code in self.dictionnaire_correspondance_mot:
             if len(self.dictionnaire_correspondance_mot[mot_code]) == 1 and \
                     isinstance(self.dictionnaire_correspondance_mot[mot_code], list):
                 self.dictionnaire_correspondance_mot[mot_code] = self.dictionnaire_correspondance_mot[mot_code][0]
-                return self.actualiser_dictionnaire_correspondance_mot()
+                #return self.actualiser_dictionnaire_correspondance_mot()
 
     def suppression_de_mot_trouve(self):
-        liste_mots_uniques = [element for element in self.dictionnaire_correspondance_mot.values() if isinstance(element, str)]
-        for mot_possible in liste_mots_uniques:
-            for mot_code in self.dictionnaire_correspondance_mot:
-                if isinstance(self.dictionnaire_correspondance_mot[mot_code], list) and \
-                        mot_possible in self.dictionnaire_correspondance_mot[mot_code] and \
-                                len(self.dictionnaire_correspondance_mot[mot_code]) > 1:
-
-                    self.dictionnaire_correspondance_mot[mot_code].remove(mot_possible)
+        liste_mots_uniques = set([element for element in self.dictionnaire_correspondance_mot.values() if isinstance(element, str)])
+        for mot_code in self.dictionnaire_correspondance_mot:
+            if isinstance(self.dictionnaire_correspondance_mot[mot_code], list) and \
+                            len(self.dictionnaire_correspondance_mot[mot_code]) > 1:
+                nouvelle_liste = list(set(self.dictionnaire_correspondance_mot[mot_code]) - liste_mots_uniques)
+                if len(nouvelle_liste) == 1:
+                    self.dictionnaire_correspondance_mot[mot_code] = nouvelle_liste[0]
                     return self.actualiser_dictionnaire_correspondance_mot()
+                else:
+                    self.dictionnaire_correspondance_mot[mot_code] = nouvelle_liste
 
     def suppression_par_n_mot_necessaire(self):
+
+        # A ameliorer
         liste_possibilites_non_trouvees = [sorted(element) for element in self.dictionnaire_correspondance_mot.values() if
                                            isinstance(element, list)]
         possibilites_necessaire = []
@@ -79,7 +82,7 @@ class GestionnaireMot:
 
     def actualiser_dictionnaire_correspondance_mot(self, dictionnaire_lettre=None):
 
-        self.suppression_par_mot_unique()
+        self.verification_de_mot_trouve()
         self.suppression_de_mot_trouve()
         self.suppression_par_n_mot_necessaire()
 
