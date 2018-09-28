@@ -1,11 +1,11 @@
 Ce programme permet de décrypter un texte coder par substitution mono alphabétique.
 
-Note :
-* On part du principe que la version originale des mots cryptés existe dans un fichier.
-* Les signes de ponctuation ne sont pas gérés. 
-* Les lettres accentuées ne sont pas considérées comme des lettres non accentuées.
-
 Logique :
+
+Le but est de trouver une association unique entre un mot codé et un mot 
+original, en réduisant récursivement la liste des possibilités.
+- Un mot original est résolu quand il devient l'unique élément 
+dans la liste de possibilités d'un mot codé.
 
 On commence par créer un **dictionnaire de mot** qui permet de matcher 
 les mots codés aux mots qui pourraient en être les originaux. 
@@ -49,3 +49,8 @@ Le terme "XAVIER" sera exclu du dictionnaire car à la position 0,
 la lettre "X" n'est pas acceptée comme l'équivalent de "Q"
 
 ***On recommence jusqu'à ce que la méthode ne provoque plus de changement au sein du dictionnaire de mots.***
+
+Note :
+* On part du principe que la version originale des mots cryptés existe dans un fichier.
+* Les signes de ponctuation ne sont pas gérés. 
+* Les lettres accentuées ne sont pas considérées comme des lettres non accentuées.
